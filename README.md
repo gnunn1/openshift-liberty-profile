@@ -38,6 +38,12 @@ Please note one difference above versus the s2i-liberty example is that we are u
 
 ### Create the Daytrader Image
 
+Prior to executing this step, make sure the previous build has completed:
+
+```oc get builds```
+
+You should see a build of ```s2i-liberty-1``` with a status of ```Complete```. If the status is ```Running``` wait a few seconds and then check again.
+
 In this step we create the Daytrader application image using an s2i binary build process. As mentioned previously, s2i allows you to either build based on source code or by passing the pre-built artifacts. In a binary build you are not restricted to just passing the single artifact, but rather you can pass a whole directory which can include many different things beyond the application artifact such as server configuration. In this case we will leverage this capability to upload a complete server configuration.
 
 In this repo, there is a directory called deployments which contains the directory that we will use for our binary build. It includes the application EAR file, the MySQL JDBC driver jar file as well as the ```server.xml``` needed to configure liberty for the application. Note that the daytrader build generates these files for you in the ```daytrader-ee7-wlpcfg``` module. I've just extracted the server.xml and modified it for MySQL instead of Derby.
@@ -53,16 +59,38 @@ The first command creates the build definition in OpenShift, the second starts t
 
 ### Create the Daytrader Application
 
-Once the build has completed, and only once the build has completed, run the following command to create the Daytrader application:
+Once the build has completed (check with ```oc get builds``` again), and only once the build has completed, run the following command to create the Daytrader application:
 
 ```
 oc new-app daytrader
-````
+```
 
 This will automatically link the application with the build we created previously since they share the same name. In the OpenShift console, you should see the Daytrader pod starting.
 
 The next step is we need to expose the application outside of the OpenShift environment by creating a route:
 
-```oc expose svc daytrader```
+```oc expose svc daytrader --port=9080```
+
+If you look at the OpenShift console, you should see a URL now appear above the Daytrader application. In my case the URL is ```http://daytrader-liberty2.127.0.0.1.nip.io/``` but yours may be different depending on your OpenShift configuration. Click the URL and you should see Websphere Liberty screen.
+
+![Daytrader Config](https://github.com/gnunn1/openshift-liberty-profile/raw/master/images/liberty-splash.png)
+
+### Initialize Daytrader Database
+
+At this point, if you examine the daytrader pod logs you will notice some database errors. This is because the database hasn't been initialized with the schema and data so this is the next step.
+
+Append ```/daytrader``` to the end of the URL in the browser to view the Daytrader application. Click the configuration tab and you will see a screen as per below:
+
+![Daytrader Config](https://github.com/gnunn1/openshift-liberty-profile/raw/master/images/daytrader-config.png)
+
+Click the link ```(Re)-create  DayTrader Database Tables and Indexes``` to initialize the database. Once it is complete you will see a message ```Please Stop and Re-start your Daytrader application (or your application server)```. To do this simply scale the daytrader pod down to 0 and back-up to 1.
+
+Once that is done, go back to the configuration tab and select the ```(Re)-populate  DayTrader Database``` link. This will populate the database with users and quotes. In the interest of expediency I modified the application to lower the users and quotes to 100 and 1000 from the defaults of 15000 and 10000. You can change the values used in ```Configure DayTrader run-time parameters```.
+
+### Use the application
+
+At this point you can use the application, go to the ```Trading and Portfolio``` tab, login using the default credential and start trading away.
+
+
 
 
