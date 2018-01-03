@@ -87,7 +87,7 @@ Click the link ```(Re)-create  DayTrader Database Tables and Indexes``` to initi
 
 Once that is done, go back to the configuration tab and select the ```(Re)-populate  DayTrader Database``` link. This will populate the database with users and quotes. In the interest of expediency I modified the application to lower the users and quotes to 100 and 1000 from the defaults of 15000 and 10000. You can change the values used in ```Configure DayTrader run-time parameters```.
 
-### Use the application
+### Use the Application
 
 At this point you can use the application, go to the ```Trading and Portfolio``` tab, login using the default credential and start trading away.
 
