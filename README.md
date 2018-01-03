@@ -24,7 +24,7 @@ Note that the schema uses lowercase table names hence we set the environment var
 
 ### Create the Build Image
 
-This demo uses OpenShift's Source-2-Image (s2i) technology to create the daytrader container. The s2i allows you to create new container images using source code or binary artifacts (i.e. ear, war, etc) without having to write a dockerfile. Fortunately, there is an existing [S2I Liberty](https://github.com/redhat-cop/containers-quickstarts/tree/master/s2i-liberty) builder available for OpenShift which we can leverage. Unfortunately it is one minor [issue](https://github.com/redhat-cop/containers-quickstarts/issues/59) that needed correcting so this demo will use a [forked](https://github.com/gnunn1/containers-quickstarts) version of that image.
+This demo uses OpenShift's Source-2-Image (s2i) technology to create the daytrader container. The s2i allows you to create new container images using source code or binary artifacts (i.e. ear, war, etc) without having to write a dockerfile. Fortunately, there is an existing [S2I Liberty](https://github.com/redhat-cop/containers-quickstarts/tree/master/s2i-liberty) builder available for OpenShift which we can leverage. Unfortunately it has one minor [issue](https://github.com/redhat-cop/containers-quickstarts/issues/59) that needed correcting so this demo will use a [forked](https://github.com/gnunn1/containers-quickstarts) version of that image.
 
 Please review the documentation of the s2i-liberty image to understand better how it works.
 
