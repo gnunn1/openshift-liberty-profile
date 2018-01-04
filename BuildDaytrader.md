@@ -12,9 +12,11 @@ First clone the Daytrader repo as follows:
 
 Next we need to add a script to create the database in MySQL, you can do this with the following commands:
 
-```cd daytrader-ee7-web/src/main/webapp/dbscripts```
-```mkdir mysql```
-```curl https://raw.githubusercontent.com/jamesfalkner/jboss-daytrader/master/javaee6/modules/web/src/main/resources/dbscripts/mysql/Table.ddl -o mysql/Table.ddl```
+```
+cd daytrader-ee7-web/src/main/webapp/dbscripts
+mkdir mysql
+curl https://raw.githubusercontent.com/jamesfalkner/jboss-daytrader/master/javaee6/modules/web/src/main/resources/dbscripts/mysql/Table.ddl -o mysql/Table.ddl
+```
 
 Confirm the DDL was downloaded correctly
 
